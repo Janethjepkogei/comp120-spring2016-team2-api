@@ -57,12 +57,15 @@ has to manually add during reporting, the better.
    experience with Sinatra, whereas no one had experience with Rails.
   - [DataMapper](http://datamapper.org/)
 - MySQL
-
- #####Why MySQL?
+  
+  #####Why MySQL?
    We chose MySQL because of its thorough documentation and active community.
    One member of our group had some experience with MySQL, but this was not a
    deciding factor in our decision.
-   
+- Angular
+- Google Maps API
+- JQuery
+- Bootstrap
 
 ## Contributors
 - [Max Ettelson](http://github.com/mdettelson)
