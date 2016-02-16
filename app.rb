@@ -11,7 +11,7 @@ get '/' do
   return "DIRT api"
 end
 
-post '/incident/new' do
+post '/incidents/new' do
   incident = Incident.create(:description => params[:description],
                              :location => params[:location],
                              :severity => params[:severity],
