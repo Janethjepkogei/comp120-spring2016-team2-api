@@ -15,11 +15,20 @@ and tracking.
 In order to streamline the process of reporting and tracking incidents, we used
 two primary goals in developing our product:
 
+ - Accessing the system (ie. logging in) should be quick and painless 
+ for those that have access to the system.
  - Do as much work for the user as possible.  The less information the user
 has to manually add during reporting, the better.
- - Make the UI streamlined.  The on-call responder should be able to 
-navigate the incident table easily and the reporter should be able
-to quickly add an incident without having to navigate through menus.
+ - The on-call responder should be able to navigate the incident table easily 
+  and the reporter should be able to quickly add an incident without 
+  having to navigate through menus.
+
+## Interface
+- User is immediately prompted to log in
+- Home Page only has two options: Report Incidents and View Incidents
+- Reporting uses a single-page form
+- Viewing is a single table that can be sorted by time, departments, or other
+  values
 
 
 ## Data Schema
@@ -35,17 +44,16 @@ to quickly add an incident without having to navigate through menus.
 - `IncidentIncidentType` relation between Incident and IncidentType
 - `IncidentDepartment` relation between Incident and Department
 
-## Interface
-- Simple and clean to avoid distraction
-- User is immediately prompted to log in
-- Home Page only has two options: Report Incidents and View Incidents
-- Reporting uses a single-page form
-- Viewing is a single table that can be sorted by time, departments, or other
-  values
-
 ## Technology
 - Ruby 2.3.0
   - [Sinatra](http://www.sinatrarb.com/)
+ #####Why Sinatra?
+  Though Rails provides a lot of pre-built structures to work with,
+  it can be easy to lose sight of what exactly is going on behind-the-scenes.
+  Sinatra lacks these structures, but since this app is relatively small, having
+  more control over our codebase and spending a little extra time for simplicity's sake
+  seemed like an advantage for our group.  In addition, one member of our group had experience with Sinatra, whereas no one had
+  experience with Rails.
   - [DataMapper](http://datamapper.org/)
 - MySQL
 
