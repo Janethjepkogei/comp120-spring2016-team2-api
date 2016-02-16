@@ -26,11 +26,11 @@ class User
   include DataMapper::Resource
   
   property :id, Serial
-  property :first_name, String, :min => 0, :max => 60, :required => true
-  property :last_name, String, :min => 0, :max => 60, :required => true
-  property :email_address, String, :min => 0, :max => 255, :required => true
-  property :phone_number, String, :min => 0, :max => 15, :required => true
-  property :role, String, :min => 0, :max => 60
+#  property :first_name, String, :length => 60, :required => true
+#  property :last_name, String, :length => 60, :required => true
+#  property :email_address, String, :length => 255, :required => true
+#  property :phone_number, String, :length => 15, :required => true
+#  property :role, String, :length => 60
 
   has n, :incidents
 end
