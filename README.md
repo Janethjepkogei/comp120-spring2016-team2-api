@@ -15,9 +15,9 @@ and tracking.
 In order to streamline the process of reporting and tracking incidents, we used
 two primary goals in developing our product:
 
--Do as much work for the user as possible.  The less information the user
+ - Do as much work for the user as possible.  The less information the user
 has to manually add during reporting, the better.
--Make the UI streamlined.  The on-call responder should be able to 
+ - Make the UI streamlined.  The on-call responder should be able to 
 navigate the incident table easily and the reporter should be able
 to quickly add an incident without having to navigate through menus.
 
