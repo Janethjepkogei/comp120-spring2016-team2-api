@@ -18,11 +18,16 @@ post '/incidents/new' do
                              :status => 0,
                              :user_id => 1)
 
+  puts "description: '#{params[:description]}'"
   if incident.saved?
     return json incident
   else
     return "Failed to create incident"
   end
+end
+
+get '/incidents/:id' do |id|
+  return json Incident.get(id)
 end
 
 get '/incidents' do
