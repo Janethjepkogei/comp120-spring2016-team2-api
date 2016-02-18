@@ -8,8 +8,7 @@ Access the frontend and primary documentation [here](https://github.com/tuftsdev
 - `bundle install`
 - `ruby app.rb`
 
-### Environment variables needed for database
-#### DIRT API uses the following environment variables
+#### DIRT API uses the following environment variables 
 - 'DIRT_USERNAME' the MySQL user with which to access the database
 - 'DIRT_PASSWORD' the password of the above MySQL user
 - 'DIRT_HOST'     the host running MySQL, e.g. localhost
