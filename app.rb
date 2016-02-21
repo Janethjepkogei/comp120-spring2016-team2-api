@@ -30,6 +30,17 @@ get '/incidents/:id' do |id|
   return json Incident.get(id)
 end
 
+post '/incidents/:id' do |id|
+  fields = [:description, :location, :severity, :status]
+  incident = Incident.get(id)
+  fields.each do |field|
+    if params[field] and not incident.update field => params[field]
+      return json "Failed to update #{field}"
+    end
+  end
+  return json incident
+end
+
 get '/incidents' do
   fields = [
             :id,
