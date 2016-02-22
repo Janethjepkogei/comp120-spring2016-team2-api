@@ -56,4 +56,14 @@ class DirtApp < Sinatra::Base
     return json Incident.all(:fields => fields)
   end
 
+  post '/user/new' do
+    user = User.create(:first_name => params[:first_name], 
+                       :last_name => params[:last_name])
+
+    if user.saved?
+      return json user
+    else
+      return "Failed to create user"
+    end
+  end
 end
