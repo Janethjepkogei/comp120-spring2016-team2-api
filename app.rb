@@ -29,7 +29,7 @@ class DirtApp < Sinatra::Base
   end
 
   get '/incidents/:id' do |id|
-    return json Incident.get(id)
+    return Incident.get(id).to_json(relationships: { user: {} })
   end
 
   post '/incidents/:id' do |id|
@@ -46,7 +46,6 @@ class DirtApp < Sinatra::Base
   get '/incidents' do
     fields = [
               :id,
-              #            :user,
               :severity,
               :description,
               #            :departments,
@@ -54,6 +53,10 @@ class DirtApp < Sinatra::Base
               :status,
              ]
     return json Incident.all(:fields => fields)
+  end
+
+  get '/user/:id' do |id|
+    return json User.get(id)
   end
 
   post '/user/new' do
