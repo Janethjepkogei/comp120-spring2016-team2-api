@@ -18,8 +18,13 @@ Then /^The incident report entry is returned$/ do
 
 end
 
+When /^I attempt to add an incident with extraneous data$/ do
 
-Then /^I receive the error message "[^"s]*"$/ do |error_msg|
+end
+
+
+
+Then /^I receive the error message "[^\"]*"$/ do |error_msg|
 
 end
 
@@ -30,3 +35,9 @@ end
 When /^I attempt to add an incident with extraneous data do$/ do
 
 end
+
+When /^I attempt to give an incident an inappropriate (.*) value$/ do |bad_param|
+
+end
+
+

@@ -28,6 +28,12 @@ Feature: Adding Incidents
 Feature Editing Incidents
   Scenario: Editing an incident stored in the database
     When I attempt to give an incident an inappropriate status value
-    Then
+    Then I receive the error message "Failed to update status"
+    When I attempt to give an incident an inappropriate location value
+    Then I receive the error message "Failed to update location"
+    When I attempt to give an incident an inappropriate severity value
+    Then I receive the error message "Failed to update severity"
+    When I attempt to give an incident an inappropriate description value
+    Then I receive the error message "Failed to update description"
 
   Scenario:
