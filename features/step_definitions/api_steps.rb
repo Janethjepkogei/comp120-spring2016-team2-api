@@ -58,7 +58,7 @@ end
 
 
 Then /^I receive the error message "[^\"]*"$/ do |error_msg|
-  assert @data  == error_msg
+  assert @data[]  == error_msg
 end
 
 When /^I attempt to give an incident an inappropriate (.*) value$/ do |bad_param|
