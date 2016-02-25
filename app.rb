@@ -24,7 +24,7 @@ class DirtApp < Sinatra::Base
     if incident.saved?
       return json incident
     else
-      return "Failed to create incident"
+      return json "Failed to create incident"
     end
   end
 
