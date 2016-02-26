@@ -18,7 +18,7 @@ Access the frontend and primary documentation [here](https://github.com/tuftsdev
 http://tuftsdev.github.io/comp120-spring2016-team2/index.html
 
 ## Unit Testing
-Tests can be found in the features folder of the repository
+Tests can be found in the features folder of this repository.
 
 ### Why Cucumber?
 
