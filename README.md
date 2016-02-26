@@ -14,6 +14,20 @@ Access the frontend and primary documentation [here](https://github.com/tuftsdev
 - 'DIRT_HOST'     the host running MySQL, e.g. localhost
 - 'DIRT_DATABASE' the name of the database for DIRT API to use
 
+##Live URL
+http://tuftsdev.github.io/comp120-spring2016-team2/index.html
+
+## Unit Testing
+Tests can be found in the features folder of this repository.
+
+### Why Cucumber?
+
+### User Testing
+We asked several people for their input on our current user interface, and most of the feedback given is frontend-specific. Many of them like how the page looks; however, they do see the mostly empty space on the right side of the page as a problem. Suggestions on what to fill the unused space with were made by these users, such as putting a field that helps to see the trend of what is going on in the table. We have taken this feedback and will consider this as we further develop our frontend.
+
+## Considering n Users
+Our team has been thinking about how we will ensure that the app can handle 15,000 unique visits per day, once it is in production. As our product stands at this point in the development process, it could not handle that many users. Future improvements that we plan to look into include optimization of static content, especially since a large portion of our product involves static content. We could use Content Delivery Networks to store some of our content, use compression, and also make our static information cachable (via application cache). 
+
 ## Contributors
 - [Max Ettelson](http://github.com/mdettelson)
 - [Chris Hinstorff](http://github.com/chinstorff)
