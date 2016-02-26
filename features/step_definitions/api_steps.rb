@@ -15,7 +15,6 @@ bad_data["severity"] = "apple"
 bad_data["location"] = 124
 bad_data["created_at"] = "yesterday"
 
-Bundler.with_clean_env do
 When /^I add an incident report to the database$/ do
   response = RestClient.post("api.dirt.frontfish.net/incidents/new",
              {
@@ -25,51 +24,53 @@ When /^I add an incident report to the database$/ do
               "created_at" => incident1["created_at"]
               }
   )
-  @data = JSON.parse response.body
-end
+  $data = JSON.parse response.body
 end
 
-Bundler.with_clean_env do
-When /^I add 100 incidents to the database$/ do
-  4.times do
-  response = RestClient.post("api.dirt.frontfish.net/incidents/new",
+  When /^I add ([0-9]*)  incident reports to the database$/ do |num_inc|
+    $data_array = Array.new(num_inc)
 
-                             {
-                                 "description" => incident1["description"],
-                                 "severity" => incident1["severity"],
-                                 "location" => incident1["location"],
-                                 "created_at" => incident1["created_at"]
-                             }
-  )
+    num_inc.times do |index|
+      response = RestClient.post("api.dirt.frontfish.net/incidents/new",
+
+                                 {
+                                     "description" => incident1["description"],
+                                     "severity" => incident1["severity"],
+                                     "location" => incident1["location"],
+                                     "created_at" => incident1["created_at"]
+                                 }
+      )
+    $data_array[index] = JSON.parse response.body
+    end
   end
-  @data = JSON.parse response.body
-end
-end
 
 
 Then /^I can retrieve the incident from the database$/ do
-  response = RestClient.get("api.dirt.frontfish.net/incidents/#{@data["id"]}")
-  @data = JSON.parse response.body
-  assert @data['description']  == incident1["description"]
-  assert @data['severity']  == incident1["severity"]
-  assert @data['status'] == 0
-  assert @data['user_id'] == 1
+  response = RestClient.get("api.dirt.frontfish.net/incidents/#{$data["id"]}")
+  $data = JSON.parse response.body
+  assert $data['description']  == incident1["description"]
+  assert $data['severity']  == incident1["severity"]
+  assert $data['status'] == 0
+  assert $data['user_id'] == 1
 
 end
 
-When /^I add (\d+) incident reports to the database$/ do |num_inc|
 
-end
-
-Then /^I can retrieve all (\d+) incident reports from the database$/ do |num_inc|
-
+Then /^I can retrieve all ([0-9]*) incident reports from the database$/ do |num_inc|
+  num_inc.times do |index|
+    response = RestClient.get("api.dirt.frontfish.net/incidents/#{$data_array[index]["id"]}")
+    assert $data_array[index]['description']  == incident1["description"]
+    assert $data_array[index]['severity']  == incident1["severity"]
+    assert $data_array[index]['status'] == 0
+    assert $data_array[index]['user_id'] == 1
+  end
 end
 
 Then /^The incident report entry is returned$/ do
-  assert @data['description']  == incident1["description"]
-  assert @data['severity']  == incident1["severity"]
-  assert @data['status'] == 0
-  assert @data['user_id'] == 1
+  assert $data['description']  == incident1["description"]
+  assert $data['severity']  == incident1["severity"]
+  assert $data['status'] == 0
+  assert $data['user_id'] == 1
 end
 
 When /^I attempt to add an incident with extraneous data$/ do
