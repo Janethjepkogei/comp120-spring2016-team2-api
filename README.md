@@ -15,6 +15,7 @@ Access the frontend and primary documentation [here](https://github.com/tuftsdev
 - 'DIRT_DATABASE' the name of the database for DIRT API to use
 
 ##Live URL
+http://tuftsdev.github.io/comp120-spring2016-team2/frontend/index.html
 
 ## Unit Testing
 ### Why Cucumber?
