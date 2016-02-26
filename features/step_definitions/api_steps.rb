@@ -4,7 +4,7 @@ require 'json'
 
 
 incident1 = Hash.new
-incident1["description"] = "it's bad, real bad"
+incident1["description"] = "it's bad, real bad too bad very bad"
 incident1["severity"] = 3
 incident1["location"] = "42.3601, 71.0589"
 incident1["created_at"] = "1999-12-31 11:59:59"
@@ -15,6 +15,7 @@ bad_data["severity"] = "apple"
 bad_data["location"] = 124
 bad_data["created_at"] = "yesterday"
 
+Bundler.with_clean_env do
 When /^I add an incident report to the database$/ do
   response = RestClient.post("api.dirt.frontfish.net/incidents/new",
              {
@@ -26,6 +27,25 @@ When /^I add an incident report to the database$/ do
   )
   @data = JSON.parse response.body
 end
+end
+
+Bundler.with_clean_env do
+When /^I add 100 incidents to the database$/ do
+  4.times do
+  response = RestClient.post("api.dirt.frontfish.net/incidents/new",
+
+                             {
+                                 "description" => incident1["description"],
+                                 "severity" => incident1["severity"],
+                                 "location" => incident1["location"],
+                                 "created_at" => incident1["created_at"]
+                             }
+  )
+  end
+  @data = JSON.parse response.body
+end
+end
+
 
 Then /^I can retrieve the incident from the database$/ do
   response = RestClient.get("api.dirt.frontfish.net/incidents/#{@data["id"]}")
