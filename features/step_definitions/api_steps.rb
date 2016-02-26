@@ -4,10 +4,17 @@ require 'json'
 
 
 incident1 = Hash.new
-incident1["description"] = "it's bad, real bad too bad very bad"
+incident1["description"] = "it's bad, real bad too bad very bad. I can't"
 incident1["severity"] = 3
 incident1["location"] = "42.3601, 71.0589"
 incident1["created_at"] = "1999-12-31 11:59:59"
+
+
+incident2 = Hash.new
+incident2["description"] = "it's bad, real bad too bad very bad"
+incident2["severity"] = 3
+incident2["location"] = "42.3601, 71.0589"
+incident2["created_at"] = "1999-12-31 11:59:59"
 
 bad_data = Hash.new
 bad_data["description"] = 2
@@ -27,22 +34,22 @@ When /^I add an incident report to the database$/ do
   $data = JSON.parse response.body
 end
 
-  When /^I add ([0-9]*)  incident reports to the database$/ do |num_inc|
-    $data_array = Array.new(num_inc)
+When /^I add (\d+) incident reports to the database$/ do |num_inc|
+  $data_array = Array.new(num_inc.to_i)
+    num_inc.to_i.times do |index|
 
-    num_inc.times do |index|
       response = RestClient.post("api.dirt.frontfish.net/incidents/new",
 
                                  {
-                                     "description" => incident1["description"],
-                                     "severity" => incident1["severity"],
-                                     "location" => incident1["location"],
-                                     "created_at" => incident1["created_at"]
+                                     "description" => incident2["description"],
+                                     "severity" => incident2["severity"],
+                                     "location" => incident2["location"],
+                                     "created_at" => incident2["created_at"]
                                  }
       )
     $data_array[index] = JSON.parse response.body
     end
-  end
+end
 
 
 Then /^I can retrieve the incident from the database$/ do
@@ -56,11 +63,11 @@ Then /^I can retrieve the incident from the database$/ do
 end
 
 
-Then /^I can retrieve all ([0-9]*) incident reports from the database$/ do |num_inc|
-  num_inc.times do |index|
+Then /^I can retrieve all (\d+) incident reports from the database$/ do |num_inc|
+  num_inc.to_i.times do |index|
     response = RestClient.get("api.dirt.frontfish.net/incidents/#{$data_array[index]["id"]}")
-    assert $data_array[index]['description']  == incident1["description"]
-    assert $data_array[index]['severity']  == incident1["severity"]
+    assert $data_array[index]['description']  == incident2["description"]
+    assert $data_array[index]['severity']  == incident2["severity"]
     assert $data_array[index]['status'] == 0
     assert $data_array[index]['user_id'] == 1
   end
@@ -104,7 +111,7 @@ When /^I add an incident with inappropriate (.*) value$/ do |bad_param|
                                      "created_at" => bad_data["created_at"]
                                  }
       )
-      @data = JSON.parse response.body
+      $data = JSON.parse response.body
     when "description"
       response = RestClient.post("api.dirt.frontfish.net/incidents/new",
                                  {
@@ -114,7 +121,7 @@ When /^I add an incident with inappropriate (.*) value$/ do |bad_param|
                                      "created_at" => incident1["created_at"]
                                  }
       )
-      @data = JSON.parse response.body
+      $data = JSON.parse response.body
 
     when "location"
       response = RestClient.post("api.dirt.frontfish.net/incidents/new",
@@ -125,7 +132,7 @@ When /^I add an incident with inappropriate (.*) value$/ do |bad_param|
                                      "created_at" => incident1["created_at"]
                                  }
       )
-      @data = JSON.parse response.body
+      $data = JSON.parse response.body
     when "severity"
       response = RestClient.post("api.dirt.frontfish.net/incidents/new",
                                  {
@@ -135,7 +142,7 @@ When /^I add an incident with inappropriate (.*) value$/ do |bad_param|
                                      "created_at" => incident1["created_at"]
                                  }
       )
-      @data = JSON.parse response.body
+      $data = JSON.parse response.body
 
   end
 end

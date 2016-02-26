@@ -9,8 +9,8 @@ Feature: Adding Incidents
    Then I can retrieve all 100 incident reports from the database
 
   Scenario: Attempting to add incidents with bad data
-    When I add an incident with inappropriate date value
-    Then I receive the error message "Failed to create incident"
+#    When I add an incident with inappropriate date value
+#    Then I receive the error message "Failed to create incident"
     When I add an incident with inappropriate severity value
     Then I receive the error message "Failed to create incident"
     When I add an incident with inappropriate location value
