@@ -15,12 +15,15 @@ Access the frontend and primary documentation [here](https://github.com/tuftsdev
 - 'DIRT_DATABASE' the name of the database for DIRT API to use
 
 ##Live URL
-http://tuftsdev.github.io/comp120-spring2016-team2/index.html
+http://dirt.frontfish.net
 
 ## Unit Testing
 Tests can be found in the features folder of this repository.
 
 ### Why Cucumber?
+In order to test for as many scenarios as possible, it is important that our tests are easy to understand and are clearly defined. Cucumber allows us to write very comprehensive tests without getting lost in test code because of the .feature file. Though it is more complicated than other test frameworks, we are willing to spend the extra time needed to create a more thorough and easy-to-understand test suite.
+
+Our decision was also influenced by the fact that a member of our team (Max) had experience using Cucumber, and no one else had any experience with the others.
 
 ### User Testing
 We asked several people for their input on our current user interface, and most of the feedback given is frontend-specific. Many of them like how the page looks; however, they do see the mostly empty space on the right side of the page as a problem. Suggestions on what to fill the unused space with were made by these users, such as putting a field that helps to see the trend of what is going on in the table. We have taken this feedback and will consider this as we further develop our frontend.
