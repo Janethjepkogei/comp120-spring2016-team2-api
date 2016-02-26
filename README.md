@@ -14,6 +14,15 @@ Access the frontend and primary documentation [here](https://github.com/tuftsdev
 - 'DIRT_HOST'     the host running MySQL, e.g. localhost
 - 'DIRT_DATABASE' the name of the database for DIRT API to use
 
+##Live URL
+
+## Unit Testing
+### Why Cucumber?
+
+
+### User Testing
+We asked several people for their input on our current user interface, and most of the feedback given is frontend-specific. Many of them like how the page looks; however, they do see the mostly empty space on the right side of the page as a problem. Suggestions on what to fill the unused space with were made by these users, such as putting a field that helps to see the trend of what is going on in the table. We have taken this feedback and will consider this as we further develop our frontend.
+
 ## Contributors
 - [Max Ettelson](http://github.com/mdettelson)
 - [Chris Hinstorff](http://github.com/chinstorff)
