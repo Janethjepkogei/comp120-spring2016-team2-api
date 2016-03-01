@@ -85,17 +85,10 @@ When /^I attempt to add an incident with extraneous data$/ do
 end
 
 
-Then /^I receive the error message "[^\"]*"$/ do |error_msg|
-  assert @data[]  == error_msg
+Then /^I receive the error message ("[^"]*")$/ do |error_msg|
+  assert $data  == error_msg
 end
 
-When /^I attempt to give an incident an inappropriate (.*) value$/ do |bad_param|
-
-end
-
-When /^I attempt to add an incident with extraneous data do$/ do
-
-end
 
 
 When /^I add an incident with inappropriate (.*) value$/ do |bad_param|
@@ -111,7 +104,7 @@ When /^I add an incident with inappropriate (.*) value$/ do |bad_param|
                                      "created_at" => bad_data["created_at"]
                                  }
       )
-      $data = JSON.parse response.body
+      $data = response.body
     when "description"
       response = RestClient.post("api.dirt.frontfish.net/incidents/new",
                                  {
@@ -121,7 +114,7 @@ When /^I add an incident with inappropriate (.*) value$/ do |bad_param|
                                      "created_at" => incident1["created_at"]
                                  }
       )
-      $data = JSON.parse response.body
+      $data = response.body
 
     when "location"
       response = RestClient.post("api.dirt.frontfish.net/incidents/new",
@@ -132,7 +125,7 @@ When /^I add an incident with inappropriate (.*) value$/ do |bad_param|
                                      "created_at" => incident1["created_at"]
                                  }
       )
-      $data = JSON.parse response.body
+      $data = response.body
     when "severity"
       response = RestClient.post("api.dirt.frontfish.net/incidents/new",
                                  {
@@ -142,9 +135,17 @@ When /^I add an incident with inappropriate (.*) value$/ do |bad_param|
                                      "created_at" => incident1["created_at"]
                                  }
       )
-      $data = JSON.parse response.body
+      $data = response.body
 
   end
+end
+
+When /^I attempt to give an incident an inappropriate (.*) value$/ do |bad_param|
+
+end
+
+When /^I attempt to add an incident with extraneous data do$/ do
+
 end
 
 

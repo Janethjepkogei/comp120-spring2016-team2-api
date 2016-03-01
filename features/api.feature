@@ -1,16 +1,16 @@
 Feature: Adding Incidents
-  Scenario: Add 1 incident to the database
-    When I add an incident report to the database
-    Then The incident report entry is returned
-    And I can retrieve the incident from the database
-
-  Scenario: Add 100 incidents to the database
-   When I add 100 incident reports to the database
-   Then I can retrieve all 100 incident reports from the database
+#  Scenario: Add 1 incident to the database
+#    When I add an incident report to the database
+#    Then The incident report entry is returned
+#    And I can retrieve the incident from the database
+#
+#  Scenario: Add 100 incidents to the database
+#   When I add 100 incident reports to the database
+#   Then I can retrieve all 100 incident reports from the database
 
   Scenario: Attempting to add incidents with bad data
-#    When I add an incident with inappropriate date value
-#    Then I receive the error message "Failed to create incident"
+    When I add an incident with inappropriate date value
+    Then I receive the error message "Failed to create incident"
     When I add an incident with inappropriate severity value
     Then I receive the error message "Failed to create incident"
     When I add an incident with inappropriate location value
