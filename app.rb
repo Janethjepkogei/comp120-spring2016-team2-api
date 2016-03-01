@@ -17,6 +17,7 @@ class DirtApp < Sinatra::Base
     incident = Incident.create(:description => params[:description],
                                :location => params[:location],
                                :severity => params[:severity],
+                               :created_at => params[:created_at],
                                :status => 0,
                                :user_id => 1)
 
@@ -51,6 +52,7 @@ class DirtApp < Sinatra::Base
               #            :departments,
               :created_at,
               :status,
+              :created_at,
              ]
     return json Incident.all(:fields => fields)
   end
