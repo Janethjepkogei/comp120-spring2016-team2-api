@@ -13,6 +13,12 @@ class DirtApp < Sinatra::Base
     return "DIRT api"
   end
 
+  def get_attributes(incident)
+    attributes = incident.attributes
+    attributes[:user] = User.get(attributes[:user_id]).attributes
+    return attributes
+  end
+
   post '/incidents/new' do
     incident = Incident.create(:description => params[:description],
                                :location => params[:location],
@@ -23,16 +29,14 @@ class DirtApp < Sinatra::Base
 
     puts "description: '#{params[:description]}'"
     if incident.saved?
-      return json incident
+      return json get_attributes incident
     else
       return json "Failed to create incident"
     end
   end
 
   get '/incidents/:id' do |id|
-    attributes = Incident.get(id).attributes
-    attributes[:user] = User.get(attributes[:user_id]).attributes
-    return json attributes
+    return json get_attributes Incident.get(id)
   end
 
   post '/incidents/:id' do |id|
@@ -43,7 +47,7 @@ class DirtApp < Sinatra::Base
         return json "Failed to update #{field}"
       end
     end
-    return json incident
+    return json get_attributes incident
   end
 
   get '/incidents' do
