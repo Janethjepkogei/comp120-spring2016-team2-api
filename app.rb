@@ -15,7 +15,7 @@ class DirtApp < Sinatra::Base
 
   def get_attributes(incident)
     attributes = incident.attributes
-    attributes[:user] = User.get(attributes[:user_id]).attributes
+    attributes[:user] = incident.user.attributes
     return attributes
   end
 
@@ -62,7 +62,7 @@ class DirtApp < Sinatra::Base
              ]
     incidents = Incident.all(:fields => fields).map do |incident|
       attributes = incident.attributes
-      attributes[:user] = User.get(incident.user_id).attributes
+      attributes[:user] = incident.user.attributes
       attributes
     end
     return json incidents

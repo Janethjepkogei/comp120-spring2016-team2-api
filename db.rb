@@ -7,6 +7,8 @@ password = ENV['DIRT_PASSWORD']
 host     = ENV['DIRT_HOST']
 database = ENV['DIRT_DATABASE']
 
+DataMapper::Logger.new(STDOUT, :debug)
+
 DataMapper.setup :default, "mysql://#{username}:#{password}@#{host}/#{database}"
 
 Dir["./models/*.rb"].each {|file| require file }
