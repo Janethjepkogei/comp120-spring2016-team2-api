@@ -68,11 +68,11 @@ class DirtApp < Sinatra::Base
     return json incidents
   end
 
-  get '/user/:id' do |id|
+  get '/users/:id' do |id|
     return json User.get(id)
   end
 
-  post '/user/new' do
+  post '/users/new' do
     user = User.create(:first_name => params[:first_name], 
                        :last_name => params[:last_name])
 
