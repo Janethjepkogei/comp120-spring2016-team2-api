@@ -1,0 +1,105 @@
+DIRT API Documentation
+
+-------------------------------------------
+
+Schema
+
+<< Incident >>
+{
+    "id"		int
+    "severity"		int {0, 1, 2, 3}
+    "status"		int {0, 1, 2}
+    "description"	string
+    "location"		string
+    "created_at"	string (ISO 8601)
+    "user"		<< User >>
+}
+
+<< User >>
+{
+    "id"		int
+    "first_name"	string
+    "last_name"		string
+    "email_address"	string
+    "phone_number"	string
+}
+
+-------------------------------------------
+
+GET  /incidents
+
+Query arguments
+- None
+
+Response
+[
+    << Incident >>,
+    << Incident >>,
+    ...
+    << Incident >>,
+]
+
+-------------------------------------------
+
+POST /incidents/new
+
+Params
+[
+    "severity"		int {0, 1, 2, 3}
+    "description"	string
+    "location"		string
+    "created_at"	string (ISO 8601)
+]
+
+Response
+<< Incident >>
+
+-------------------------------------------
+
+GET  /incidents/:id
+
+Query args
+- None
+
+Response
+<< Incident >>
+
+-------------------------------------------
+
+POST /incidents/:id
+
+Params
+[
+    "severity"		int {0, 1, 2, 3}
+    "status"		int {0, 1, 2}
+    "description"	string
+    "location"		string
+]
+
+Response
+<< Incident >>
+
+-------------------------------------------
+
+GET  /users/:id
+
+Query args
+- None
+
+Response
+<< User >>
+
+-------------------------------------------
+
+POST /users/new
+
+Params
+[
+    "first_name"	string
+    "last_name"		string
+]
+
+Response
+<< User >>
+
+-------------------------------------------
