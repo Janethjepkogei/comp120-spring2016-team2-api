@@ -1,6 +1,9 @@
 # DIRT: Durham Incident Report Tracker API
 A backend solution to Tina's problems
 
+API documentation is available [here]
+(https://github.com/tuftsdev/comp120-spring2016-team2-api/blob/master/DOC.txt).
+
 Access the frontend and primary documentation 
 [here](https://github.com/tuftsdev/comp120-spring2016-team2).
 
