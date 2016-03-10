@@ -1,8 +1,14 @@
 DIRT API Documentation
 
+All API endpoints (other than those required for authentication)
+will require authentication to be accessed.
+
+To ensure the privacy and safety of our users, no incident
+reports will be publicly viewable.
+
 -------------------------------------------
 
-Schema
+Schemata
 
 << Incident >>
 {
