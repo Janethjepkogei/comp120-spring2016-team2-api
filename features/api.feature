@@ -13,8 +13,8 @@ Feature: Adding Incidents
     Then I receive the error message "Failed to create incident"
     When I add an incident with inappropriate severity value
     Then I receive the error message "Failed to create incident"
-    When I add an incident with inappropriate location value
-    Then I receive the error message "Failed to create incident"
+#    When I add an incident with inappropriate location value
+#    Then I receive the error message "Failed to create incident"
     When I attempt to add an incident with extraneous data
     Then The incident report entry is returned
     And I can retrieve the incident from the database
