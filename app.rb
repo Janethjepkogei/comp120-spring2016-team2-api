@@ -26,8 +26,8 @@ class DirtApp < Sinatra::Base
                                :created_at => params[:created_at],
                                :status => 0,
                                :user_id => 1)
-
-    puts "description: '#{params[:description]}'"
+    puts params
+    puts incident.inspect
     if incident.saved?
       return json get_attributes incident
     else
@@ -51,7 +51,7 @@ class DirtApp < Sinatra::Base
   end
 
   get '/incidents' do
-    fields = [
+    params[:fields] = [
               :id,
               :severity,
               :description,
@@ -60,7 +60,7 @@ class DirtApp < Sinatra::Base
               :status,
               :created_at,
              ]
-    incidents = Incident.all(:fields => fields).map do |incident|
+    incidents = Incident.all(params).map do |incident|
       attributes = incident.attributes
       attributes[:user] = incident.user.attributes
       attributes
