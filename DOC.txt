@@ -35,7 +35,7 @@ Schemata
 GET  /incidents
 
 Query arguments
-- None
+- "user_id"         int     (defaults to ALL users)
 
 Response
 [
