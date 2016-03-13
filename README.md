@@ -22,6 +22,9 @@ Access the frontend and primary documentation
 Tests can be found in the features folder of this repository.
 Run with `cucumber features`.
 
+##API Design choices
+We built our API using sinatra.  We chose Sinatra because of it is very lightweight compared to Rails and therefore easier to manage for a simple CRUD application like DIRT.  We built an API at the beginning of our project because it allows for complete separation of concerns between the frontend and the backend.  This separation means creating new interfaces (ie. mobile web, iOS/Android app, etc) doesn't require any adjustments to be made on the server side.  We also planned to create a refresh-free version of our interface in the future, and this is very easy to implement when using an API. 
+
 ### Why Cucumber?
 In order to test for as many scenarios as possible, it is important that
 our tests are easy to understand and are clearly defined. Cucumber allows
