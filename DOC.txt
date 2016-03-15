@@ -12,22 +12,22 @@ Schemata
 
 << Incident >>
 {
-    "id"		int
-    "severity"		int {0, 1, 2, 3}
-    "status"		int {0, 1, 2}
-    "description"	string
-    "location"		string
-    "created_at"	string (ISO 8601)
-    "user"		<< User >>
+    "id"                int
+    "severity"          int {0, 1, 2, 3}
+    "status"            int {0, 1, 2}
+    "description"       string
+    "location"          string
+    "created_at"        string (ISO 8601)
+    "user"              << User >>
 }
 
 << User >>
 {
-    "id"		int
-    "first_name"	string
-    "last_name"		string
-    "email_address"	string
-    "phone_number"	string
+    "id"                int
+    "first_name"        string
+    "last_name"         string
+    "email_address"     string
+    "phone_number"      string
 }
 
 -----------------------------------------------------------------
@@ -35,7 +35,7 @@ Schemata
 GET  /incidents
 
 Query arguments
-- "user_id"		int     (defaults to ALL users)
+- "user_id"             int     (defaults to ALL users)
 
 Response
 [
@@ -51,10 +51,10 @@ POST /incidents/new
 
 Params
 [
-    "severity"		int {0, 1, 2, 3}
-    "description"	string
-    "location"		string
-    "created_at"	string (ISO 8601)
+    "severity"          int {0, 1, 2, 3}
+    "description"       string
+    "location"          string
+    "created_at"        string (ISO 8601)
 ]
 
 Response
@@ -76,10 +76,10 @@ POST /incidents/:id
 
 Params
 [
-    "severity"		int {0, 1, 2, 3}
-    "status"		int {0, 1, 2}
-    "description"	string
-    "location"		string
+    "severity"          int {0, 1, 2, 3}
+    "status"            int {0, 1, 2}
+    "description"       string
+    "location"          string
 ]
 
 Response
@@ -101,8 +101,8 @@ POST /users/new
 
 Params
 [
-    "first_name"	string
-    "last_name"		string
+    "first_name"        string
+    "last_name"         string
 ]
 
 Response
