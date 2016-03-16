@@ -18,10 +18,6 @@ Access the frontend and primary documentation
 - 'DIRT_HOST'     the host running MySQL, e.g. localhost
 - 'DIRT_DATABASE' the name of the database for DIRT API to use
 
-## Unit Testing
-Tests can be found in the features folder of this repository.
-Run with `cucumber features`.
-
 ##API Design choices
 We built our API using sinatra.  We chose Sinatra because of it is very
 lightweight compared to Rails and therefore easier to manage for a simple
@@ -32,6 +28,10 @@ the frontend and the backend.  This separation means creating new interfaces
 made on the server side.  We also planned to create a refresh-free version of
 our interface in the future, and this is very easy to implement
 when using an API. 
+
+## Unit Testing
+Tests can be found in the features folder of this repository.
+Run with `cucumber features`.
 
 ### Why Cucumber?
 In order to test for as many scenarios as possible, it is important that
