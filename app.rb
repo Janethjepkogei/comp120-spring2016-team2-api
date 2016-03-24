@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/json'
 require 'sinatra/cross_origin'
 require './db'
+require 'aws-sdk'
 
 class DirtApp < Sinatra::Base
   register Sinatra::CrossOrigin
@@ -26,6 +27,7 @@ class DirtApp < Sinatra::Base
                                :created_at => params[:created_at],
                                :status => 0,
                                :user_id => 1)
+
     puts params
     puts incident.inspect
     if incident.saved?
@@ -48,6 +50,31 @@ class DirtApp < Sinatra::Base
       end
     end
     return json get_attributes incident
+  end
+
+  get '/sign_s3' do
+
+    #http://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Presigner.html
+    #http://docs.aws.amazon.com/sdkforruby/api/
+    #https://github.com/flyingsparx/NodeDirectUploader/blob/master/app.js - Reference of what needs to be done but in Node
+
+    #Things TODO:
+    # =>  return JSON containing the temporarily-signed S3 request and the anticipated URL of the image
+    # => 
+    Aws.config.update({
+      region: 'oregon',
+      credentials: Aws::Credentials.new('AKIAJDUJMG7364YCNVXQ', 'zwYLmPAvnDE+VMJqBZVt7VC4hMTY5kAAyimeKDF4')})
+    s3 = AWS::S3.new
+    s3_params = { 
+        :Bucket => dirt.frontfish.net, 
+        :Key => params[:file_name], 
+        :Expires =>60, 
+        :ContentType => params[:file_type], 
+        :ACL => 'public-read'
+    }
+    signer = Aws::S3::Presigner.new
+    url = signer.presigned_url(:get_object, bucket: "dirt.frontfish.net", key: "uploads/#{SecureRandom.uuid}/${params[:file_name]}", acl: 'public-read', success_action_status: '201')
+
   end
 
   get '/incidents' do
