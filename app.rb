@@ -64,17 +64,24 @@ class DirtApp < Sinatra::Base
     Aws.config.update({
       region: 'oregon',
       credentials: Aws::Credentials.new('AKIAJDUJMG7364YCNVXQ', 'zwYLmPAvnDE+VMJqBZVt7VC4hMTY5kAAyimeKDF4')})
-    s3 = AWS::S3.new
-    s3_params = { 
-        :Bucket => dirt.frontfish.net, 
-        :Key => params[:file_name], 
-        :Expires =>60, 
-        :ContentType => params[:file_type], 
-        :ACL => 'public-read'
-    }
-    signer = Aws::S3::Presigner.new
-    url = signer.presigned_url(:get_object, bucket: "dirt.frontfish.net", key: "uploads/#{SecureRandom.uuid}/${params[:file_name]}", acl: 'public-read', success_action_status: '201')
+    # s3 = AWS::S3.new
+    # s3_params = { 
+    #     :Bucket => dirt.frontfish.net, 
+    #     :Key => params[:file_name], 
+    #     :Expires =>60, 
+    #     :ContentType => params[:file_type], 
+    #     :ACL => 'public-read'
+    # }
+    #signer = Aws::S3::Presigner.new
+    #url = signer.presigned_url(:get_object, bucket: "dirt.frontfish.net", key: "uploads/#{SecureRandom.uuid}/${params[:file_name]}", acl: 'public-read', success_action_status: '201')
 
+    #http://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Presigner.html
+    signer = Aws::S3::Presigner.new
+    return_data = {
+        :signed_url => signer.presigned_url(:put_object, bucket: "dirt.frontfish.net", key: "uploads/#{SecureRandom.uuid}/${params[:file_name]}",acl: 'public-read', expires_in: 60 ),
+        :url =>'https://'+ 'dirt.frontfish.net' + '.s3.amazonaws.com/' + params[:file_name] 
+      }
+    return json return_data
   end
 
   get '/incidents' do
