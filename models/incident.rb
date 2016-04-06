@@ -7,6 +7,9 @@ class Incident
   property :description, String, :length => 255, :required => true
   property :location, String, :length => 255
   property :created_at, DateTime, :required => true
+  property :last_modified, DateTime, :required => true
+  property :incident_time, DateTime
+
 
   belongs_to :user
   has n, :departments, :through => Resource
