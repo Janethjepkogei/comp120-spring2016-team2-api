@@ -10,7 +10,7 @@ class DirtApp < Sinatra::Base
   enable :cross_origin
 
   get '/' do
-    cross_origin
+
     return "DIRT api"
   end
 
@@ -76,10 +76,11 @@ class DirtApp < Sinatra::Base
     #url = signer.presigned_url(:get_object, bucket: "dirt.frontfish.net", key: "uploads/#{SecureRandom.uuid}/${params[:file_name]}", acl: 'public-read', success_action_status: '201')
 
     #http://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Presigner.html
+    #https://aws.amazon.com/sdk-for-ruby/
     signer = Aws::S3::Presigner.new
     return_data = {
         :signed_url => signer.presigned_url(:put_object, bucket: "dirt.frontfish.net", key: "uploads/#{SecureRandom.uuid}/${params[:file_name]}",acl: 'public-read', expires_in: 60 ),
-        :url =>'https://'+ 'dirt.frontfish.net' + '.s3.amazonaws.com/' + params[:file_name] 
+        :url =>'https://'+ 'dirt.frontfish.net' + '.s3.amazonaws.com/'#{params[:file_name]}
       }
     return json return_data
   end
