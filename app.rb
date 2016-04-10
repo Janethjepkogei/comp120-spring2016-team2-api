@@ -88,7 +88,8 @@ class DirtApp < Sinatra::Base
         :updated_at,
         :incident_time,
     ]
-    incidents = Incident.all(params(:order => [ :updated_at.desc ], :updated_at.gt => timestamp)).map do |incident|
+    time = Time.parse(some_string)
+    incidents = Incident.all(params(:order => [ :updated_at.desc ], :updated_at.gt => time)).map do |incident|
       attributes = incident.attributes
       attributes[:user] = incident.user.attributes
       attributes
