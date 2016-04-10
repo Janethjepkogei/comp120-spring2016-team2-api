@@ -3,6 +3,7 @@ require 'sinatra/json'
 require 'sinatra/cross_origin'
 require './db'
 require 'time'
+require './message_sender'
 
 class DirtApp < Sinatra::Base
   register Sinatra::CrossOrigin
@@ -31,7 +32,9 @@ class DirtApp < Sinatra::Base
     puts params
     puts incident.inspect
     if incident.saved?
-      return json get_attributes incident
+      as_json = json get_attributes incident
+      publish as_json
+      return as_json
     else
       return json "Failed to create incident"
     end
@@ -50,7 +53,9 @@ class DirtApp < Sinatra::Base
       end
       incident.update(:last_modified => Time.now.utc.iso8601)
     end
-    return json get_attributes incident
+    as_json = json get_attributes incident
+    publish as_json
+    return as_json
   end
 
   get '/incidents' do
