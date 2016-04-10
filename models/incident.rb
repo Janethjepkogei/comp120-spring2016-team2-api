@@ -1,3 +1,7 @@
+require 'rubygems'
+require 'dm-core'
+require 'dm-timestamps'
+
 class Incident
   include DataMapper::Resource
 
@@ -7,7 +11,7 @@ class Incident
   property :description, String, :length => 255, :required => true
   property :location, String, :length => 255
   property :created_at, DateTime, :required => true
-  property :last_modified, DateTime, :required => true
+  property :updated_at, DateTime, :required => true
   property :incident_time, DateTime
 
 
