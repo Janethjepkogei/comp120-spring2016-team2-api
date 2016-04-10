@@ -77,7 +77,7 @@ class DirtApp < Sinatra::Base
     return json incidents
   end
 
-  get '/incidents/timestamp' do |timestamp|
+  get '/incidents/:timestamp' do |timestamp|
     params[:fields] = [
         :id,
         :severity,
@@ -88,7 +88,7 @@ class DirtApp < Sinatra::Base
         :updated_at,
         :incident_time,
     ]
-    time = Time.parse(some_string)
+    time = Time.parse(timestamp)
     incidents = Incident.all(params(:order => [ :updated_at.desc ], :updated_at.gt => time)).map do |incident|
       attributes = incident.attributes
       attributes[:user] = incident.user.attributes
