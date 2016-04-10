@@ -25,7 +25,7 @@ class DirtApp < Sinatra::Base
                                :location => params[:location],
                                :severity => params[:severity],
                                :created_at => params[:created_at],
-                               :last_modified => Time.now.utc.iso8601,
+                               :updated_at => Time.now.utc.iso8601,
                                :status => 0,
                                :user_id => 1)
     puts params
@@ -48,7 +48,7 @@ class DirtApp < Sinatra::Base
       if params[field] and not incident.update field => params[field]
         return json "Failed to update #{field}"
       end
-      incident.update last_modified => Time.now.utc.iso8601
+      incident.update(:last_modified => Time.now.utc.iso8601)
     end
     return json get_attributes incident
   end
@@ -61,7 +61,7 @@ class DirtApp < Sinatra::Base
               #            :departments,
               :created_at,
               :status,
-              :last_modified,
+              :updated_at,
               :incident_time,
              ]
     incidents = Incident.all(params).map do |incident|
@@ -72,7 +72,7 @@ class DirtApp < Sinatra::Base
     return json incidents
   end
 
-  get '/incidents/recent' do
+  get '/incidents/timestamp' do |timestamp|
     params[:fields] = [
         :id,
         :severity,
@@ -80,10 +80,10 @@ class DirtApp < Sinatra::Base
         #            :departments,
         :created_at,
         :status,
-        :last_modified,
+        :updated_at,
         :incident_time,
     ]
-    incidents = Incident.all(params, :order => [ :last_modified.desc ], :limit => 5).map do |incident|
+    incidents = Incident.all(params(:order => [ :updated_at.desc ], :updated_at.gt => timestamp)).map do |incident|
       attributes = incident.attributes
       attributes[:user] = incident.user.attributes
       attributes
