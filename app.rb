@@ -23,11 +23,14 @@ class DirtApp < Sinatra::Base
   end
 
   post '/incidents/new' do
-    incident = Incident.create(:description => params[:description],
- :location => params[:location],
-                               :severity => params[:severity],
-                               :status => 0,
-                               :user_id => 1)
+    incident = Incident.create(
+      :description => params[:description],
+      :location => params[:location],                        
+      :severity => params[:severity],
+      :incident_time => params[:incident_time],
+      :status => 0,
+      :user_id => 1
+      )
     puts params
     puts incident.inspect
     if incident.saved?
@@ -65,29 +68,9 @@ class DirtApp < Sinatra::Base
               :created_at,
               :status,
               :updated_at,
-              #:incident_time,
+              :incident_time,
              ]
     incidents = Incident.all(params).map do |incident|
-      attributes = incident.attributes
-      attributes[:user] = incident.user.attributes
-      attributes
-    end
-    return json incidents
-  end
-
-  get '/incidents/:timestamp' do |timestamp|
-    params[:fields] = [
-        :id,
-        :severity,
-        :description,
-        #            :departments,
-        :created_at,
-        :status,
-        :updated_at,
-        #:incident_time,
-    ]
-    time = Time.parse(timestamp)
-    incidents = Incident.all(params(:order => [ :updated_at.desc ], :updated_at.gt => time)).map do |incident|
       attributes = incident.attributes
       attributes[:user] = incident.user.attributes
       attributes

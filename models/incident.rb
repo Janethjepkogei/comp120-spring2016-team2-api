@@ -12,7 +12,7 @@ class Incident
   property :location, String, :length => 255
   property :created_at, DateTime
   property :updated_at, DateTime
-  #property :incident_time, DateTime
+  property :incident_time, DateTime
 
 
   belongs_to :user
