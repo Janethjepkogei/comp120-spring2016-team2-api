@@ -18,6 +18,7 @@ Schemata
     "description"       string
     "location"          string
     "created_at"        string (ISO 8601)
+    "updated_at"        string (ISO 8601)
     "user"              << User >>
 }
 
@@ -54,7 +55,6 @@ Params
     "severity"          int {0, 1, 2, 3}
     "description"       string
     "location"          string
-    "created_at"        string (ISO 8601)
 }
 
 Response
