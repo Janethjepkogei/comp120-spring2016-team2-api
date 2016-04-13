@@ -2,6 +2,8 @@ require 'sinatra'
 require 'sinatra/json'
 require 'sinatra/cross_origin'
 require './db'
+require 'time'
+require './message_sender'
 require 'aws-sdk'
 
 class DirtApp < Sinatra::Base
@@ -21,17 +23,20 @@ class DirtApp < Sinatra::Base
   end
 
   post '/incidents/new' do
-    incident = Incident.create(:description => params[:description],
-                               :location => params[:location],
-                               :severity => params[:severity],
-                               :created_at => params[:created_at],
-                               :status => 0,
-                               :user_id => 1)
-
+    incident = Incident.create(
+      :description => params[:description],
+      :location => params[:location],                        
+      :severity => params[:severity],
+      :incident_time => params[:incident_time],
+      :status => 0,
+      :user_id => 1
+      )
     puts params
     puts incident.inspect
     if incident.saved?
-      return json get_attributes incident
+      as_json = json get_attributes incident
+      publish as_json
+      return as_json
     else
       return json "Failed to create incident"
     end
@@ -49,7 +54,9 @@ class DirtApp < Sinatra::Base
         return json "Failed to update #{field}"
       end
     end
-    return json get_attributes incident
+    as_json = json get_attributes incident
+    publish as_json
+    return as_json
   end
 
   get '/sign_s3' do
@@ -93,7 +100,8 @@ class DirtApp < Sinatra::Base
               #            :departments,
               :created_at,
               :status,
-              :created_at,
+              :updated_at,
+              :incident_time,
              ]
     incidents = Incident.all(params).map do |incident|
       attributes = incident.attributes
@@ -101,6 +109,19 @@ class DirtApp < Sinatra::Base
       attributes
     end
     return json incidents
+  end
+
+  get '/sign_s3' do
+    Aws.config.update({
+      region: 'oregon',
+      credentials: Aws::Credentials.new('AKIAJDUJMG7364YCNVXQ', 'zwYLmPAvnDE+VMJqBZVt7VC4hMTY5kAAyimeKDF4')})
+
+    signer = Aws::S3::Presigner.new
+    return_data = {
+        :signed_url => signer.presigned_url(:put_object, bucket: "dirt.frontfish.net", key: "uploads/#{SecureRandom.uuid}/${params[:file_name]}",acl: 'public-read', expires_in: 60 ),
+        :url =>'https://'+ 'dirt.frontfish.net' + '.s3.amazonaws.com/'#{params[:file_name]}
+      }
+    return json return_data
   end
 
   get '/users/:id' do |id|
