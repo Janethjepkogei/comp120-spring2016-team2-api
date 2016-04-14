@@ -4,12 +4,31 @@ require 'sinatra/cross_origin'
 require './db'
 require 'time'
 require './message_sender'
+#require 'cloudinary'
+#require '/config'
 require 'aws-sdk'
 
 class DirtApp < Sinatra::Base
   register Sinatra::CrossOrigin
 
   enable :cross_origin
+
+  # config do
+  #   set :cloudinary_api, {api_key: ENV['API_KEY'],
+  #                       api_secret: ENV['API_SECRET'],
+  #                       cloud_name: ENV['CLOUD_NAME']}
+  # end
+
+  # get '/add' do
+  #   #user = user.create name: params[:name]
+  #   image_meta = params[:image]
+  #   filename = image_meta.delete :filename 
+  #   url = Cloudinary::Uploader.upload filename, settings.cloudinary_api.merge(image_meta)
+  #   return url 
+  # end
+
+  
+        
 
   get '/' do
 
@@ -35,7 +54,7 @@ class DirtApp < Sinatra::Base
     puts incident.inspect
     if incident.saved?
       as_json = json get_attributes incident
-      publish as_json
+     # publish as_json
       return as_json
     else
       return json "Failed to create incident"
@@ -55,35 +74,19 @@ class DirtApp < Sinatra::Base
       end
     end
     as_json = json get_attributes incident
-    publish as_json
+    #publish as_json
     return as_json
   end
 
+  #http://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Presigner.html
+  #http://docs.aws.amazon.com/sdkforruby/api/
+  #https://aws.amazon.com/sdk-for-ruby/
+  #https://github.com/flyingsparx/NodeDirectUploader/blob/master/app.js 
+
   get '/sign_s3' do
-
-    #http://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Presigner.html
-    #http://docs.aws.amazon.com/sdkforruby/api/
-    #https://github.com/flyingsparx/NodeDirectUploader/blob/master/app.js - Reference of what needs to be done but in Node
-
-    #Things TODO:
-    # =>  return JSON containing the temporarily-signed S3 request and the anticipated URL of the image
-    # => 
     Aws.config.update({
       region: 'oregon',
       credentials: Aws::Credentials.new('AKIAJDUJMG7364YCNVXQ', 'zwYLmPAvnDE+VMJqBZVt7VC4hMTY5kAAyimeKDF4')})
-    # s3 = AWS::S3.new
-    # s3_params = { 
-    #     :Bucket => dirt.frontfish.net, 
-    #     :Key => params[:file_name], 
-    #     :Expires =>60, 
-    #     :ContentType => params[:file_type], 
-    #     :ACL => 'public-read'
-    # }
-    #signer = Aws::S3::Presigner.new
-    #url = signer.presigned_url(:get_object, bucket: "dirt.frontfish.net", key: "uploads/#{SecureRandom.uuid}/${params[:file_name]}", acl: 'public-read', success_action_status: '201')
-
-    #http://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Presigner.html
-    #https://aws.amazon.com/sdk-for-ruby/
     signer = Aws::S3::Presigner.new
     return_data = {
         :signed_url => signer.presigned_url(:put_object, bucket: "dirt.frontfish.net", key: "uploads/#{SecureRandom.uuid}/${params[:file_name]}",acl: 'public-read', expires_in: 60 ),
