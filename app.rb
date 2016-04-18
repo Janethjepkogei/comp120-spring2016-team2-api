@@ -4,7 +4,7 @@ require 'sinatra/cross_origin'
 require './db'
 require 'time'
 require './message_sender'
-require 'aws-sdk'
+#require 'aws-sdk'
 
 class DirtApp < Sinatra::Base
   register Sinatra::CrossOrigin
@@ -79,6 +79,10 @@ class DirtApp < Sinatra::Base
   end
 
   get '/sign_s3' do
+    status 501
+    body ''
+    return
+
     Aws.config.update({
       region: 'oregon',
       credentials: Aws::Credentials.new('AKIAJDUJMG7364YCNVXQ', 'zwYLmPAvnDE+VMJqBZVt7VC4hMTY5kAAyimeKDF4')})

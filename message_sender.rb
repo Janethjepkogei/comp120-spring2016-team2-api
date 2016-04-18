@@ -9,4 +9,5 @@ def publish(str)
   
   x.publish(str)
   puts " [x] Sent #{str}"
+  conn.close
 end
