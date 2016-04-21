@@ -109,4 +109,12 @@ class DirtApp < Sinatra::Base
       return "Failed to create user"
     end
   end
+
+  post '/postreceive' do
+    `git pull origin master`
+    `bundle install`
+    `sleep 5`
+    `./stop_unicorn`
+    `./start_unicorn`
+  end
 end
