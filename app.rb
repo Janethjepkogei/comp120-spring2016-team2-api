@@ -23,6 +23,7 @@ class DirtApp < Sinatra::Base
   end
 
   post '/incidents/new' do
+    cross_origin
     incident = Incident.create(
       :description => params[:description],
       :location => params[:location],                        
@@ -30,7 +31,7 @@ class DirtApp < Sinatra::Base
       :incident_time => params[:incident_time],
       :status => 0,
       :user_id => 1
-      )
+    )
     puts params
     puts incident.inspect
     if incident.saved?
@@ -43,10 +44,12 @@ class DirtApp < Sinatra::Base
   end
 
   get '/incidents/:id' do |id|
+    cross_origin
     return json get_attributes Incident.get(id)
   end
 
   post '/incidents/:id' do |id|
+    cross_origin
     fields = [:description, :location, :severity, :status]
     incident = Incident.get(id)
     fields.each do |field|
@@ -60,6 +63,7 @@ class DirtApp < Sinatra::Base
   end
 
   get '/incidents' do
+    cross_origin
     params[:fields] = [
               :id,
               :severity,
@@ -96,10 +100,12 @@ class DirtApp < Sinatra::Base
   end
 
   get '/users/:id' do |id|
+    cross_origin
     return json User.get(id)
   end
 
   post '/users/new' do
+    cross_origin
     user = User.create(:first_name => params[:first_name], 
                        :last_name => params[:last_name])
 
