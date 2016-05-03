@@ -30,7 +30,7 @@ class DirtApp < Sinatra::Base
         
 
   get '/' do
-
+    cross_origin
     return "DIRT api"
   end
 
