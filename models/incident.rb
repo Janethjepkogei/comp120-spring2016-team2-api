@@ -13,6 +13,7 @@ class Incident
   property :created_at, DateTime
   property :updated_at, DateTime
   property :incident_time, DateTime
+  property :photo_link, String, :length => 255
 
 
   belongs_to :user

@@ -4,6 +4,7 @@ require 'sinatra/cross_origin'
 require './db'
 require 'time'
 require './message_sender'
+require 'aws/s3'
 #require 'cloudinary'
 #require '/config'
 require 'aws-sdk'
@@ -42,16 +43,29 @@ class DirtApp < Sinatra::Base
   end
 
   post '/incidents/new' do
-    incident = Incident.create(
-      :description => params[:description],
-      :location => params[:location],                        
-      :severity => params[:severity],
-      :incident_time => params[:incident_time],
-      :status => 0,
-      :user_id => 1
+    if params.include? 'file'
+      s3_link = upload_photo(params[:file])
+      incident = Incident.create(
+        :description => params[:description],
+        :location => params[:location],                        
+        :severity => params[:severity],
+        :incident_time => params[:incident_time],
+        :photo_link => s3_link,
+        :status => 0,
+        :user_id => 1
       )
+    else
+      incident = Incident.create(
+        :description => params[:description],
+        :location => params[:location],                        
+        :severity => params[:severity],
+        :incident_time => params[:incident_time],
+        :status => 0,
+        :user_id => 1
+        )
+    end
     puts params
-    puts incident.inspect
+    puts incident
     if incident.saved?
       as_json = json get_attributes incident
      # publish as_json
@@ -66,8 +80,17 @@ class DirtApp < Sinatra::Base
   end
 
   post '/incidents/:id' do |id|
+    #Check photo, if no photo_link already, add
+  incident = Incident.get(id)
+   if params.include? 'file' and incident.photo_link.nil?
+      s3_link = upload_photo(params[:file])
+      if not incident.update :photo_link => s3_link
+        return json "Failed to update photo_link"
+      end
+    end
+
     fields = [:description, :location, :severity, :status]
-    incident = Incident.get(id)
+    
     fields.each do |field|
       if params[field] and not incident.update field => params[field]
         return json "Failed to update #{field}"
@@ -77,23 +100,32 @@ class DirtApp < Sinatra::Base
     #publish as_json
     return as_json
   end
+#http://docs.aws.amazon.com/sdk-for-ruby/latest/DeveloperGuide/aws-ruby-sdk-recipes.html#aws-ruby-sdk-s3-recipes
+def upload_photo(photo)
+  Aws.config.update({
+  :access_key_id => ENV['ACCESS_KEY_ID'],
+  :secret_access_key => ENV['SECRET_ACCESS_KEY']
+  })
 
-  #http://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Presigner.html
-  #http://docs.aws.amazon.com/sdkforruby/api/
-  #https://aws.amazon.com/sdk-for-ruby/
-  #https://github.com/flyingsparx/NodeDirectUploader/blob/master/app.js 
+  s3 = Aws::S3::Resource.new(region: 'us-west-2')
+  file = photo[:tempfile]
+  bucket = 'dirt.frontfish.net'
+  
+  # Get just the file name
+  name = Time.now.utc.iso8601
 
-  get '/sign_s3' do
-    Aws.config.update({
-      region: 'oregon',
-      credentials: Aws::Credentials.new('AKIAJDUJMG7364YCNVXQ', 'zwYLmPAvnDE+VMJqBZVt7VC4hMTY5kAAyimeKDF4')})
-    signer = Aws::S3::Presigner.new
-    return_data = {
-        :signed_url => signer.presigned_url(:put_object, bucket: "dirt.frontfish.net", key: "uploads/#{SecureRandom.uuid}/${params[:file_name]}",acl: 'public-read', expires_in: 60 ),
-        :url =>'https://'+ 'dirt.frontfish.net' + '.s3.amazonaws.com/'#{params[:file_name]}
-      }
-    return json return_data
+  # Create the object to upload
+  obj = s3.bucket(bucket).object(name)
+
+  # Upload it      
+  if obj.upload_file(file)
+    return 'https://'+ 'dirt.frontfish.net' + '.s3.amazonaws.com/'+ name
+    #return "Uploaded #{file} to bucket #{bucket}"
+  else
+    return "Could not upload #{file} to bucket #{bucket}!"
   end
+end
+
 
   get '/incidents' do
     params[:fields] = [
