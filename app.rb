@@ -4,7 +4,6 @@ require 'sinatra/cross_origin'
 require './db'
 require 'time'
 require './message_sender'
-require 'aws/s3'
 require 'aws-sdk'
 
 class DirtApp < Sinatra::Base
