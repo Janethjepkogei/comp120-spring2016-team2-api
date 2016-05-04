@@ -104,8 +104,8 @@ class DirtApp < Sinatra::Base
 #http://docs.aws.amazon.com/sdk-for-ruby/latest/DeveloperGuide/aws-ruby-sdk-recipes.html#aws-ruby-sdk-s3-recipes
 def upload_photo(photo)
   Aws.config.update({
-  :access_key_id => ENV['ACCESS_KEY_ID'],
-  :secret_access_key => ENV['SECRET_ACCESS_KEY']
+  :access_key_id => ENV['DIRT_AWS_ACCESS_KEY_ID'],
+  :secret_access_key => ENV['DIRT_AWS_SECRET_ACCESS_KEY']
   })
 
   s3 = Aws::S3::Resource.new(region: 'us-west-2')
@@ -148,22 +148,6 @@ end
     return json incidents
   end
 
-  get '/sign_s3' do
-    status 501
-    body ''
-    return
-
-    Aws.config.update({
-      region: 'oregon',
-      credentials: Aws::Credentials.new('AKIAJDUJMG7364YCNVXQ', 'zwYLmPAvnDE+VMJqBZVt7VC4hMTY5kAAyimeKDF4')})
-
-    signer = Aws::S3::Presigner.new
-    return_data = {
-        :signed_url => signer.presigned_url(:put_object, bucket: "dirt.frontfish.net", key: "uploads/#{SecureRandom.uuid}/${params[:file_name]}",acl: 'public-read', expires_in: 60 ),
-        :url =>'https://'+ 'dirt.frontfish.net' + '.s3.amazonaws.com/'#{params[:file_name]}
-      }
-    return json return_data
-  end
 
   get '/users/:id' do |id|
     cross_origin
