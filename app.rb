@@ -122,7 +122,7 @@ def upload_photo(photo)
 
   # Upload it      
   if obj.upload_file(file)
-    return 'https://'+ 'dirt.frontfish.net' + '.s3.amazonaws.com/'+ name
+    return 'http://'+ 'dirt.frontfish.net' + '.s3.amazonaws.com/'+ name
     #return "Uploaded #{file} to bucket #{bucket}"
   else
     return "Could not upload #{file} to bucket #{bucket}!"
